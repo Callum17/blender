@@ -104,6 +104,12 @@ void ABCHairWriter::do_write(HierarchyContext &context)
     sample.setNormals(norm_smp);
   }
 
+  Alembic::Abc::OCompoundProperty arbParams = abc_curves_schema_.getArbGeomParams();
+  Alembic::AbcGeom::OV2fGeomParam groom_root_uv_params = Alembic::AbcGeom::OV2fGeomParam(arbParams, "groom_root_uv", false, Alembic::AbcGeom::kConstantScope, 1);
+  OV2fGeomParam::Sample groom_root_uv;
+  groom_root_uv.setVals(uv_values);
+  groom_root_uv_params.set(groom_root_uv);
+
   update_bounding_box(context.object);
   sample.setSelfBounds(bounding_box_);
   abc_curves_schema_.set(sample);
